@@ -38,3 +38,7 @@ void DataParser::OperateLine(std::string line){
 void DataParser::ParseData() {
     LineSecluder();
 }
+
+std::vector<Student> DataParser::GetData() const{
+    return data;
+}

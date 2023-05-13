@@ -1,11 +1,6 @@
 #include "Directory.h"
+#include "Students.h"
 #include <sstream>
-struct Student {
-    std::string name;
-    double study_score;
-    int subj_numb;
-    Student():study_score(0),subj_numb(0){}
-};
 
 class DataParser {
     const std::string identifier = "FALSE";
@@ -14,6 +9,8 @@ class DataParser {
     std::vector<Student> data;
     void LineSecluder();
     void OperateLine(std::string);
+protected:
+    std::vector<Student> GetData() const;
 public:
     DataParser(const std::string&);
     void ParseData();
