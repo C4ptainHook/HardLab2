@@ -14,12 +14,16 @@ void DataParser::LineSecluder() {
       pos = line.find_last_of(separator);
       if(line.substr(pos+1, std::string::npos)==identifier)
       {
+          line.erase(pos+1, std::string::npos);
           LineProcessing(line);
       }
     }
 }
 
 void DataParser::LineProcessing(std::string line){
+    std::string word;
+    std::stringstream s(line);
+    std::getline(s,word,',');
 
 }
 
