@@ -2,9 +2,9 @@
 #include <sstream>
 struct Student {
     std::string name;
-    double global_score;
+    double study_score;
     int subj_numb;
-    Student():global_score(0),subj_numb(0){}
+    Student():study_score(0),subj_numb(0){}
 };
 
 class DataParser {
@@ -17,6 +17,5 @@ class DataParser {
 public:
     DataParser(const std::string&);
     void ParseData();
-
 };
 

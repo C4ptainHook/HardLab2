@@ -18,6 +18,7 @@ void DataParser::LineSecluder() {
           OperateLine(line);
       }
     }
+    read_file.close();
 }
 
 void DataParser::OperateLine(std::string line){
@@ -28,7 +29,12 @@ void DataParser::OperateLine(std::string line){
     one.name=piece;
     piece.clear();
     while(std::getline(s,piece,',')){
-    one.global_score += std::stod(piece);
+    one.study_score += std::stod(piece);
     one.subj_numb++;
+    data.push_back(one);
     }
+}
+
+void DataParser::ParseData() {
+    LineSecluder();
 }
