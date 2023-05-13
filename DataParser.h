@@ -1,3 +1,4 @@
+#pragma once
 #include "Directory.h"
 #include "Students.h"
 #include <sstream>
