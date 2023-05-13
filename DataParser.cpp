@@ -21,7 +21,7 @@ void DataParser::LineSecluder() {
     read_file.close();
 }
 
-void DataParser::OperateLine(std::string line){
+void DataParser::OperateLine(const std::string& line){
     Student one;
     std::string piece;
     std::stringstream s(line);
