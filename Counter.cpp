@@ -29,3 +29,16 @@ void Counter::Count_averScore() {
     el.study_score=el.study_score/accesable_subj;
     }
 }
+
+void Counter::Sort_data() {
+    for (int i = 1; i < data.size(); ++i) {
+        int j = i-1;
+        double key = data[i].study_score;
+        while(j>=0 && key<data[j].study_score)
+        {
+            data[j+1].study_score=data[j].study_score;
+            j--;
+        }
+        data[j+1].study_score=key;
+    }
+}
