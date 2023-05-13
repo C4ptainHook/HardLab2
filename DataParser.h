@@ -9,10 +9,9 @@ class DataParser {
     std::string filename;
     std::vector<Student> data;
     void LineSecluder();
-    void OperateLine(std::string);
-protected:
-    std::vector<Student> GetData() const;
+    void OperateLine(const std::string&);
 public:
+    std::vector<Student> GetData() const;
     DataParser(const std::string&);
     void ParseData();
 };
