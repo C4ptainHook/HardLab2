@@ -45,3 +45,11 @@ void Counter::Sort_data() {
         data[j+1].study_score=key;
     }
 }
+
+std::ostream& operator<<(std::ostream& os, const Counter& obj) {
+
+    for (int i = 0; i < static_cast<int>(obj.data.size()*0.4); ++i) {
+     os<<obj.data[i].name<<","<<" "<<obj.data[i].study_score<<std::endl;
+    }
+    return os;
+}
