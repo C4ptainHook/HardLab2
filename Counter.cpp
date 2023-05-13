@@ -23,3 +23,9 @@ void Counter::Count_averSubj() {
     }
     accesable_subj=key_value;
 }
+
+void Counter::Count_averScore() {
+    for (auto& el : data) {
+    el.study_score=el.study_score/accesable_subj;
+    }
+}

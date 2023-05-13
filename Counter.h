@@ -6,6 +6,7 @@ class Counter {
     std::vector<Student> data;
     Counter(const std::vector<Student>&);
     void Count_averSubj();
+    void Count_averScore();
 };
 
 
