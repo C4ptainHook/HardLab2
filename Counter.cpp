@@ -1,8 +1,11 @@
 #include "Counter.h"
 #include <map>
 
-Counter::Counter(const std::vector<Student>& _parsed_data) {
-        data=_parsed_data;
+void Counter::Process_parsedData(const std::vector<Student>& parsed_data) {
+    data=parsed_data;
+    Count_averSubj();
+    Count_averScore();
+    Sort_data();
 }
 
 void Counter::Count_averSubj() {
