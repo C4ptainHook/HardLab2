@@ -1,5 +1,6 @@
 #pragma once
 #include "Students.h"
+#include "Printer.h"
 #include <vector>
 
 class Counter {
@@ -9,6 +10,7 @@ class Counter {
     void Count_averScore();
     void Sort_data();
 public:
+    friend std::ostream& operator<<(std::ostream& os, const Counter& obj);
     void Process_parsedData(const std::vector<Student>&);
 };
 
