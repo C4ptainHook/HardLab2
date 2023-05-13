@@ -4,6 +4,7 @@ struct Student {
     std::string name;
     double global_score;
     int subj_numb;
+    Student():global_score(0),subj_numb(0){}
 };
 
 class DataParser {
@@ -12,8 +13,7 @@ class DataParser {
     std::string filename;
     std::vector<Student> data;
     void LineSecluder();
-    void LineProcessing(std::string);
-    void AddToData();
+    void OperateLine(std::string);
 public:
     DataParser(const std::string&);
     void ParseData();

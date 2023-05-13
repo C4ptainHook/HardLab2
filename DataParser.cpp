@@ -15,18 +15,20 @@ void DataParser::LineSecluder() {
       if(line.substr(pos+1, std::string::npos)==identifier)
       {
           line.erase(pos+1, std::string::npos);
-          LineProcessing(line);
+          OperateLine(line);
       }
     }
 }
 
-void DataParser::LineProcessing(std::string line){
-    std::string word;
+void DataParser::OperateLine(std::string line){
+    Student one;
+    std::string piece;
     std::stringstream s(line);
-    std::getline(s,word,',');
-
-}
-
-void DataParser::AddToData() {
-
+    std::getline(s,piece,',');
+    one.name=piece;
+    piece.clear();
+    while(std::getline(s,piece,',')){
+    one.global_score += std::stod(piece);
+    one.subj_numb++;
+    }
 }
