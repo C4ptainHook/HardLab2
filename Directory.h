@@ -7,7 +7,7 @@
 #include <sys/stat.h>
 
 
-namespace DirSearch {
+namespace Directory {
 
     std::vector<std::string> GetPath(const char* path)
     { std::vector<std::string> path_bundle;
@@ -23,13 +23,20 @@ namespace DirSearch {
         converter+="\\Parser_Folder";
         std::filesystem::create_directory(converter);
         converter+="\\Newfile.csv";
+        std::string curr_line;
         for(const auto& elem : _path_bundle)
         {
             std::ifstream read_file(elem);
             std::ofstream write_file;
             write_file.open(converter, std::ios::out | std::ios::app);
-
-
+            std::getline(read_file, curr_line);
+            for (int i = 0; i < std::stoi(curr_line) ; ++i) {
+                std::getline(read_file, curr_line);
+                write_file<<curr_line<<std::endl;
+            }
+            read_file.close();
+            write_file.close();
         }
+        return converter;
     }
 }
