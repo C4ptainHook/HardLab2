@@ -14,7 +14,10 @@
 namespace Directory {
 
     std::vector<std::string> GetPath(const char* path)
-    { std::vector<std::string> path_bundle;
+    { if(!std::filesystem::exists(path)){
+        throw std::filesystem::filesystem_error("Path to files does not exist!",  path, std::error_code());
+    }
+        std::vector<std::string> path_bundle;
         for(const auto& entry : std::filesystem::directory_iterator(path)){
             path_bundle.push_back(entry.path().string());
         }
