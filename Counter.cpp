@@ -35,13 +35,16 @@ void Counter::Count_averScore() {
 void Counter::Sort_data() {
     for (int i = 1; i < data.size(); ++i) {
         int j = i-1;
-        double key = data[i].study_score;
-        while(j>=0 && key>data[j].study_score)
+        double keyS = data[i].study_score;
+        std::string keyN= data[i].name;
+        while(j>=0 && keyS>data[j].study_score)
         {
             data[j+1].study_score=data[j].study_score;
+            data[j+1].name=data[j].name;
             j--;
         }
-        data[j+1].study_score=key;
+        data[j+1].study_score=keyS;
+        data[j+1].name=keyN;
     }
 }
 
