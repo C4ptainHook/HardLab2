@@ -1,3 +1,4 @@
+#include <fstream>
 #include "DataParser.h"
 
  DataParser::DataParser(const std::string& _external_path) {
@@ -7,7 +8,7 @@
 void DataParser::LineSecluder() {
     std::string line;
     std::ifstream read_file;
-    size_t pos;
+    int pos;
     read_file.open(filename, std::ios::in);
     while (std::getline(read_file, line))
     {
@@ -19,6 +20,7 @@ void DataParser::LineSecluder() {
       }
     }
     read_file.close();
+    std::remove(filename.c_str());
 }
 
 void DataParser::OperateLine(const std::string& line){
@@ -31,8 +33,8 @@ void DataParser::OperateLine(const std::string& line){
     while(std::getline(s,piece,',')){
     one.study_score += std::stod(piece);
     one.subj_numb++;
-    data.push_back(one);
     }
+    data.push_back(one);
 }
 
 void DataParser::ParseData() {

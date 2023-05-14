@@ -1,11 +1,15 @@
+
+#ifndef INC_2_PARSER__DATAPARSER_H
+#define INC_2_PARSER__DATAPARSER_H
+
 #pragma once
-#include "Directory.h"
 #include "Students.h"
 #include <sstream>
+#include <vector>
 
 class DataParser {
     const std::string identifier = "FALSE";
-    const char separator = ';';
+    const char separator = ',';
     std::string filename;
     std::vector<Student> data;
     void LineSecluder();
@@ -16,3 +20,4 @@ public:
     void ParseData();
 };
 
+#endif //INC_2_PARSER__DATAPARSER_H
