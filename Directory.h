@@ -30,18 +30,19 @@ namespace Directory {
         std::string curr_line;
         std::string range_line;
         for(const auto& elem : _path_bundle)
-        {
-            std::ifstream read_file(elem);
-            std::ofstream write_file;
-            write_file.open(converter, std::ios::out | std::ios::app);
-            std::getline(read_file, range_line);
-            int range = std::stoi(range_line);
-            for (int i = 0; i < range ; ++i) {
-                std::getline(read_file, curr_line);
-                write_file<<curr_line<<std::endl;
+        {if(elem.substr(elem.length()-4)==".csv") {
+                std::ifstream read_file(elem);
+                std::ofstream write_file;
+                write_file.open(converter, std::ios::out | std::ios::app);
+                std::getline(read_file, range_line);
+                int range = std::stoi(range_line);
+                for (int i = 0; i < range; ++i) {
+                    std::getline(read_file, curr_line);
+                    write_file << curr_line << std::endl;
+                }
+                read_file.close();
+                write_file.close();
             }
-            read_file.close();
-            write_file.close();
         }
         return converter;
     }
