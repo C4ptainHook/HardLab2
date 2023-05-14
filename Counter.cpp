@@ -1,5 +1,4 @@
 #include "Counter.h"
-#include <map>
 
 void Counter::Process_parsedData(const std::vector<Student>& parsed_data) {
     data=parsed_data;
@@ -36,20 +35,23 @@ void Counter::Count_averScore() {
 void Counter::Sort_data() {
     for (int i = 1; i < data.size(); ++i) {
         int j = i-1;
-        double key = data[i].study_score;
-        while(j>=0 && key<data[j].study_score)
+        double keyS = data[i].study_score;
+        std::string keyN= data[i].name;
+        while(j>=0 && keyS>data[j].study_score)
         {
             data[j+1].study_score=data[j].study_score;
+            data[j+1].name=data[j].name;
             j--;
         }
-        data[j+1].study_score=key;
+        data[j+1].study_score=keyS;
+        data[j+1].name=keyN;
     }
 }
 
 std::ostream& operator<<(std::ostream& os, const Counter& obj) {
 
-    for (int i = 0; i < static_cast<int>(obj.data.size()*0.4); ++i) {
-     os<<obj.data[i].name<<","<<" "<<obj.data[i].study_score<<std::endl;
+    for (int i = 0; i < static_cast<int>(obj.data.size()/10*4); ++i) {
+     os<<obj.data[i].name<<","<<obj.data[i].study_score<<std::endl;
     }
     return os;
 }

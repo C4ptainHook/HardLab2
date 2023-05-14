@@ -1,5 +1,9 @@
+
+#ifndef INC_2_PARSER__DIRECTORY_H
+#define INC_2_PARSER__DIRECTORY_H
+
+
 #pragma once
-#include <iostream>
 #include <fstream>
 #include <filesystem>
 #include <vector>
@@ -24,13 +28,15 @@ namespace Directory {
         std::filesystem::create_directory(converter);
         converter+="\\Newfile.csv";
         std::string curr_line;
+        std::string range_line;
         for(const auto& elem : _path_bundle)
         {
             std::ifstream read_file(elem);
             std::ofstream write_file;
             write_file.open(converter, std::ios::out | std::ios::app);
-            std::getline(read_file, curr_line);
-            for (int i = 0; i < std::stoi(curr_line) ; ++i) {
+            std::getline(read_file, range_line);
+            int range = std::stoi(range_line);
+            for (int i = 0; i < range ; ++i) {
                 std::getline(read_file, curr_line);
                 write_file<<curr_line<<std::endl;
             }
@@ -40,3 +46,5 @@ namespace Directory {
         return converter;
     }
 }
+
+#endif //INC_2_PARSER__DIRECTORY_H

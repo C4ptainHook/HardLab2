@@ -1,7 +1,11 @@
+
+#ifndef INC_2_PARSER__COUNTER_H
+#define INC_2_PARSER__COUNTER_H
+
 #pragma once
 #include "Students.h"
-#include "Printer.h"
 #include <vector>
+#include <map>
 
 class Counter {
     int accesable_subj;
@@ -15,3 +19,4 @@ public:
 };
 
 
+#endif //INC_2_PARSER__COUNTER_H
