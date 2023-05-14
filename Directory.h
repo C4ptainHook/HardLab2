@@ -25,7 +25,9 @@ namespace Directory {
     {
         std::string converter = path;
         converter+="\\Parser_Folder";
+        if(!std::filesystem::is_directory(converter)) {
         std::filesystem::create_directory(converter);
+        }
         converter+="\\Newfile.csv";
         std::string curr_line;
         std::string range_line;
