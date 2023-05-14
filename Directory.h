@@ -21,6 +21,9 @@ namespace Directory {
         for(const auto& entry : std::filesystem::directory_iterator(path)){
             path_bundle.push_back(entry.path().string());
         }
+        if(path_bundle.empty()) {
+            throw std::runtime_error("Given directory is empty!");
+        }
         return path_bundle;
     }
 
