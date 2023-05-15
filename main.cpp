@@ -12,7 +12,8 @@ int main(int argc, char*argv[]) {
         fileGuider = Directory::DirProcess(Directory::GetPath(ppath), ppath);
     }
     catch(const EmptyFileException& ex) {
-      std::cout<<ex.what();
+      std::cerr<<ex.what();
+        return 1;
     }
     DataParser parser(fileGuider);
     parser.ParseData();

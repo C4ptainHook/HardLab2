@@ -9,7 +9,7 @@
 #include <vector>
 #include <string>
 #include <sys/stat.h>
-#include "CSVexept.h"
+#include "EmptyFileexept.h"
 
 
 namespace Directory {
@@ -42,11 +42,15 @@ namespace Directory {
         {if(elem.substr(elem.length()-4)==".csv") {
                 std::ifstream read_file(elem);
                 std::ofstream write_file;
-                write_file.open(converter, std::ios::out | std::ios::app);
                 std::getline(read_file, range_line);
                 if(range_line.empty())
-                {throw EmptyFileException("File "+elem.substr(elem.find_last_of('\\')+1, std::string::npos)+" in given directory is empty");}
+                {
+                    read_file.close();
+                    remove(converter.c_str());
+                    throw EmptyFileException("File "+elem.substr(elem.find_last_of('\\')+1, std::string::npos)+" in given directory is empty");
+                }
                 int range = std::stoi(range_line);
+                write_file.open(converter, std::ios::out | std::ios::app);
                 for (int i = 0; i < range; ++i) {
                     std::getline(read_file, curr_line);
                     write_file << curr_line << std::endl;

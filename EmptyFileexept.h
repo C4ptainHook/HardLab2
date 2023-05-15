@@ -1,5 +1,5 @@
-#ifndef INC_2_PARSER__CSVEXEPT_H
-#define INC_2_PARSER__CSVEXEPT_H
+#ifndef INC_2_PARSER__EMPTYFILEEXEPT_H
+#define INC_2_PARSER__EMPTYFILEEXEPT_H
 
 #include <stdexcept>
 #include <string>
@@ -14,4 +14,4 @@ public:
             return message.c_str();}
 };
 
-#endif //INC_2_PARSER__CSVEXEPT_H
+#endif //INC_2_PARSER__EMPTYFILEEXEPT_H
