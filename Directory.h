@@ -53,7 +53,14 @@ namespace Directory {
                 write_file.open(converter, std::ios::out | std::ios::app);
                 for (int i = 0; i < range; ++i) {
                     std::getline(read_file, curr_line);
+                    if(curr_line.empty()) {
+                        read_file.close();
+                        write_file.close();
+                        remove(converter.c_str());
+                        throw EmptyFileException("File "+elem.substr(elem.find_last_of('\\')+1, std::string::npos)+" has less rows than specified");
+                    }
                     write_file << curr_line << std::endl;
+                    curr_line.clear();
                 }
                 read_file.close();
                 write_file.close();
