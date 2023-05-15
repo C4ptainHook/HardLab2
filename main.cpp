@@ -4,10 +4,17 @@
 #include <windows.h>
 int main(int argc, char*argv[]) {
     SetConsoleOutputCP(CP_UTF8);
+    std::string fileGuider;
     char path[] = "C:\\Users\\boyko\\Desktop\\Education\\Current Sem\\OOP\\Wolf\\examples_2\\var0";
     char* ppath = path;
     Directory::GetPath(ppath);
-    DataParser parser(Directory::DirProcess(Directory::GetPath(ppath), ppath));
+    try {
+        fileGuider = Directory::DirProcess(Directory::GetPath(ppath), ppath);
+    }
+    catch(const EmptyFileException& ex) {
+      std::cout<<ex.what();
+    }
+    DataParser parser(fileGuider);
     parser.ParseData();
     Counter counter;
     counter.Process_parsedData(parser.GetData());

@@ -9,6 +9,7 @@
 #include <vector>
 #include <string>
 #include <sys/stat.h>
+#include "CSVexept.h"
 
 
 namespace Directory {
@@ -43,6 +44,8 @@ namespace Directory {
                 std::ofstream write_file;
                 write_file.open(converter, std::ios::out | std::ios::app);
                 std::getline(read_file, range_line);
+                if(range_line.empty())
+                {throw EmptyFileException("File "+elem.substr(elem.find_last_of('\\')+1, std::string::npos)+" in given directory is empty");}
                 int range = std::stoi(range_line);
                 for (int i = 0; i < range; ++i) {
                     std::getline(read_file, curr_line);
