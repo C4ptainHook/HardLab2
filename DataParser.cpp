@@ -28,7 +28,6 @@ void DataParser::LineSecluder() {
 }
 
 void DataParser::OperateLine(std::string& line){
-   static bool lineflag=false;
     std::string curr_file = line.substr(0, line.find_first_of(fnameseparator));
     line.erase(0,line.find_first_of(fnameseparator)+1);
     std::string row = line.substr(0, line.find_first_of(fnameseparator));
@@ -36,23 +35,19 @@ void DataParser::OperateLine(std::string& line){
     Student one;
     std::string piece;
     std::stringstream s(line);
-    if(!lineflag) {
-        std::getline(s, piece, ',');
-        if (piece.empty()) {
-            lineflag = true;
-            piece = '-';
-            line.insert(0,piece);
-            throw FileContentException(curr_file, 1, std::stoi(row));
-        }
-            one.name = piece;
-            piece.clear();
-            while (std::getline(s, piece, ',')) {
-                one.study_score += std::stod(piece);
-                one.subj_numb++;
-            }
-            data.push_back(one);
+    std::getline(s, piece, ',');
+    if (piece.empty()) {
+        piece = '-';
+        line.insert(0,piece);
+        throw FileContentException(curr_file, 1, std::stoi(row));
     }
-    lineflag=false;
+    one.name = piece;
+    piece.clear();
+    while (std::getline(s, piece, ',')) {
+        one.study_score += std::stod(piece);
+        one.subj_numb++;
+    }
+    data.push_back(one);
 }
 
 void DataParser::ParseData() {
