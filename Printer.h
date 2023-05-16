@@ -1,5 +1,3 @@
-
-
 #ifndef INC_2_PARSER__PRINTER_H
 #define INC_2_PARSER__PRINTER_H
 

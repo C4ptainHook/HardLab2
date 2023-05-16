@@ -29,8 +29,8 @@ void DataParser::LineSecluder() {
 
 void DataParser::OperateLine(std::string& line){
    static bool lineflag=false;
-    std::string curr_file = line.substr(0, line.find_first_of('|'));
-    line.erase(0,line.find_first_of('|')+1);
+    std::string curr_file = line.substr(0, line.find_first_of(fnameseparator));
+    line.erase(0,line.find_first_of(fnameseparator)+1);
     Student one;
     std::string piece;
     std::stringstream s(line);

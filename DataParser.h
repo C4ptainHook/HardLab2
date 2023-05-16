@@ -12,6 +12,7 @@
 class DataParser {
     const std::string identifier = "FALSE";
     const char separator = ',';
+    const char fnameseparator = '|';
     std::string filename;
     std::vector<Student> data;
     void LineSecluder();

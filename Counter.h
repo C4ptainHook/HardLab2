@@ -1,4 +1,3 @@
-
 #ifndef INC_2_PARSER__COUNTER_H
 #define INC_2_PARSER__COUNTER_H
 
