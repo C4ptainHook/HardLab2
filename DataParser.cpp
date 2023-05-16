@@ -18,23 +18,31 @@ void DataParser::LineSecluder() {
           line.erase(pos+1, std::string::npos);
           OperateLine(line);
       }
+      line.clear();
     }
     read_file.close();
     std::remove(filename.c_str());
 }
 
-void DataParser::OperateLine(const std::string& line){
+void DataParser::OperateLine(std::string& line){
+    std::string curr_file = line.substr(0, line.find_first_of('|'));
+    line.erase(0,line.find_first_of('|')+1);
     Student one;
     std::string piece;
     std::stringstream s(line);
     std::getline(s,piece,',');
-    one.name=piece;
-    piece.clear();
-    while(std::getline(s,piece,',')){
-    one.study_score += std::stod(piece);
-    one.subj_numb++;
+    if(piece.empty())
+    {
+        throw FileContentException(curr_file,1);}
+    else {
+        one.name = piece;
+        piece.clear();
+        while (std::getline(s, piece, ',')) {
+            one.study_score += std::stod(piece);
+            one.subj_numb++;
+        }
+        data.push_back(one);
     }
-    data.push_back(one);
 }
 
 void DataParser::ParseData() {

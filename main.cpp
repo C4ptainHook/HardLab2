@@ -16,7 +16,10 @@ int main(int argc, char*argv[]) {
         return 1;
     }
     DataParser parser(fileGuider);
-    parser.ParseData();
+    try{ parser.ParseData();}
+    catch(const FileContentException& ex) {
+        std::cerr<<ex.whatHappened();
+    }
     Counter counter;
     counter.Process_parsedData(parser.GetData());
     Printer::Write_Result_toFile(counter, ppath);

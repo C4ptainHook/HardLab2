@@ -59,7 +59,7 @@ namespace Directory {
                         remove(converter.c_str());
                         throw EmptyFileException("File "+elem.substr(elem.find_last_of('\\')+1, std::string::npos)+" has less rows than specified");
                     }
-                    write_file << curr_line << std::endl;
+                    write_file<<elem.substr(elem.find_last_of('\\')+1, std::string::npos)<<"|"<< curr_line << std::endl;
                     curr_line.clear();
                 }
                 std::getline(read_file, curr_line);
