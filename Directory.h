@@ -40,6 +40,7 @@ namespace Directory {
         std::string range_line;
         for(const auto& elem : _path_bundle)
         {if(elem.substr(elem.length()-4)==".csv") {
+            int row_counter=1;
                 std::ifstream read_file(elem);
                 std::ofstream write_file;
                 std::getline(read_file, range_line);
@@ -59,8 +60,9 @@ namespace Directory {
                         remove(converter.c_str());
                         throw EmptyFileException("File "+elem.substr(elem.find_last_of('\\')+1, std::string::npos)+" has less rows than specified");
                     }
-                    write_file << curr_line << std::endl;
+                    write_file<<elem.substr(elem.find_last_of('\\')+1, std::string::npos)<<"|"<<row_counter<<"|"<< curr_line << std::endl;
                     curr_line.clear();
+                    row_counter++;
                 }
                 std::getline(read_file, curr_line);
                 if(!curr_line.empty()) {

@@ -16,23 +16,36 @@ void DataParser::LineSecluder() {
       if(line.substr(pos+1, std::string::npos)==identifier)
       {
           line.erase(pos+1, std::string::npos);
-          OperateLine(line);
+          try{OperateLine(line);}
+          catch(const FileContentException& ex) {
+              std::cerr<<ex.whatHappened();
+          }
       }
+      line.clear();
     }
     read_file.close();
     std::remove(filename.c_str());
 }
 
-void DataParser::OperateLine(const std::string& line){
+void DataParser::OperateLine(std::string& line){
+    std::string curr_file = line.substr(0, line.find_first_of(fnameseparator));
+    line.erase(0,line.find_first_of(fnameseparator)+1);
+    std::string row = line.substr(0, line.find_first_of(fnameseparator));
+    line.erase(0,line.find_first_of(fnameseparator)+1);
     Student one;
     std::string piece;
     std::stringstream s(line);
-    std::getline(s,piece,',');
-    one.name=piece;
+    std::getline(s, piece, ',');
+    if (piece.empty()) {
+        piece = '-';
+        line.insert(0,piece);
+        throw FileContentException(curr_file, 1, std::stoi(row));
+    }
+    one.name = piece;
     piece.clear();
-    while(std::getline(s,piece,',')){
-    one.study_score += std::stod(piece);
-    one.subj_numb++;
+    while (std::getline(s, piece, ',')) {
+        one.study_score += std::stod(piece);
+        one.subj_numb++;
     }
     data.push_back(one);
 }
