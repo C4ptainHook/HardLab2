@@ -17,7 +17,9 @@ int main(int argc, char*argv[]) {
     }
     DataParser parser(fileGuider);
     parser.ParseData();
-    Counter counter;
-    counter.Process_parsedData(parser.GetData());
-    Printer::Write_Result_toFile(counter, ppath);
+    if(!parser.isErrors()) {
+        Counter counter;
+        counter.Process_parsedData(parser.GetData());
+        Printer::Write_Result_toFile(counter, ppath);
+    }
 }
