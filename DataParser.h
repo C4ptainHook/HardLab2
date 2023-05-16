@@ -4,16 +4,19 @@
 
 #pragma once
 #include "Students.h"
+#include "CSVexcept.h"
 #include <sstream>
 #include <vector>
+#include <cctype>
 
 class DataParser {
     const std::string identifier = "FALSE";
     const char separator = ',';
+    const char fnameseparator = '|';
     std::string filename;
     std::vector<Student> data;
     void LineSecluder();
-    void OperateLine(const std::string&);
+    void OperateLine(std::string&);
 public:
     std::vector<Student> GetData() const;
     DataParser(const std::string&);
