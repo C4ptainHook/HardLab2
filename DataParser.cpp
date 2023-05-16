@@ -16,7 +16,10 @@ void DataParser::LineSecluder() {
       if(line.substr(pos+1, std::string::npos)==identifier)
       {
           line.erase(pos+1, std::string::npos);
-          OperateLine(line);
+          try{OperateLine(line);}
+          catch(const FileContentException& ex) {
+              std::cerr<<ex.whatHappened();
+          }
       }
       line.clear();
     }
@@ -25,24 +28,29 @@ void DataParser::LineSecluder() {
 }
 
 void DataParser::OperateLine(std::string& line){
+   static bool lineflag=false;
     std::string curr_file = line.substr(0, line.find_first_of('|'));
     line.erase(0,line.find_first_of('|')+1);
     Student one;
     std::string piece;
     std::stringstream s(line);
-    std::getline(s,piece,',');
-    if(piece.empty())
-    {
-        throw FileContentException(curr_file,1);}
-    else {
-        one.name = piece;
-        piece.clear();
-        while (std::getline(s, piece, ',')) {
-            one.study_score += std::stod(piece);
-            one.subj_numb++;
+    if(!lineflag) {
+        std::getline(s, piece, ',');
+        if (piece.empty()) {
+            lineflag = true;
+            piece = '-';
+            line.insert(0,piece);
+            throw FileContentException(curr_file, 1);
         }
-        data.push_back(one);
+            one.name = piece;
+            piece.clear();
+            while (std::getline(s, piece, ',')) {
+                one.study_score += std::stod(piece);
+                one.subj_numb++;
+            }
+            data.push_back(one);
     }
+    lineflag=false;
 }
 
 void DataParser::ParseData() {

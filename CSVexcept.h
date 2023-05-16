@@ -18,7 +18,7 @@ public:
     }
     const std::string whatHappened () const{
         std::string subj = "Error in "+err.filename;
-        subj+= " in coloumn:"+std::to_string(err.col_num);
+        subj+= " in coloumn:"+std::to_string(err.col_num)+'\n';
         return subj;
     }
 };
