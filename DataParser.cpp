@@ -4,6 +4,10 @@
  DataParser::DataParser(const std::string& _external_path) {
     filename=_external_path;
 }
+bool DataParser::isErrors() const{
+    if(is_errors) return true;
+    else return false;
+}
 
 void DataParser::LineSecluder() {
     std::string line;
@@ -39,6 +43,7 @@ void DataParser::OperateLine(std::string& line){
     if (piece.empty()) {
         piece = '-';
         line.insert(0,piece);
+        is_errors=true;
         throw FileContentException(curr_file, 1, std::stoi(row));
     }
     one.name = piece;

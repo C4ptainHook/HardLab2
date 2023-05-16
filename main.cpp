@@ -5,11 +5,9 @@
 int main(int argc, char*argv[]) {
     SetConsoleOutputCP(CP_UTF8);
     std::string fileGuider;
-    char path[] = "C:\\Users\\boyko\\Desktop\\Education\\Current Sem\\OOP\\Wolf\\examples_2\\var0";
-    char* ppath = path;
-    Directory::GetPath(ppath);
+    Directory::GetPath(argv[1]);
     try {
-        fileGuider = Directory::DirProcess(Directory::GetPath(ppath), ppath);
+        fileGuider = Directory::DirProcess(Directory::GetPath(argv[1]), argv[1]);
     }
     catch(const EmptyFileException& ex) {
       std::cerr<<ex.what();
@@ -17,7 +15,9 @@ int main(int argc, char*argv[]) {
     }
     DataParser parser(fileGuider);
     parser.ParseData();
-    Counter counter;
-    counter.Process_parsedData(parser.GetData());
-    Printer::Write_Result_toFile(counter, ppath);
+    if(!parser.isErrors()) {
+        Counter counter;
+        counter.Process_parsedData(parser.GetData());
+        Printer::Write_Result_toFile(counter, argv[1]);
+    }
 }
