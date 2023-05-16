@@ -31,6 +31,8 @@ void DataParser::OperateLine(std::string& line){
    static bool lineflag=false;
     std::string curr_file = line.substr(0, line.find_first_of(fnameseparator));
     line.erase(0,line.find_first_of(fnameseparator)+1);
+    std::string row = line.substr(0, line.find_first_of(fnameseparator));
+    line.erase(0,line.find_first_of(fnameseparator)+1);
     Student one;
     std::string piece;
     std::stringstream s(line);
@@ -40,7 +42,7 @@ void DataParser::OperateLine(std::string& line){
             lineflag = true;
             piece = '-';
             line.insert(0,piece);
-            throw FileContentException(curr_file, 1);
+            throw FileContentException(curr_file, 1, std::stoi(row));
         }
             one.name = piece;
             piece.clear();
