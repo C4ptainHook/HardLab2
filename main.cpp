@@ -21,7 +21,6 @@ int main(int argc, char*argv[]) {
     try{parser.LineSecluder( path_bundle);}
     catch(const EmptyFileException& ex) {
         std::cerr<<ex.what();
-        return 1;
     }
     if(!parser.isErrors()) {
         Counter counter;

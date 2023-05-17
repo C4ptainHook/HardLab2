@@ -10,7 +10,8 @@
 #include <cctype>
 
 class DataParser {
-    const std::string identifier = "FALSE";
+    const std::string budjet_identifier = "FALSE";
+    const std::string contract_identifier = "TRUE";
     const char separator = ',';
     const char* fnameseparator = "|";
     bool is_errors=false;
