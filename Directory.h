@@ -20,10 +20,11 @@ namespace Directory {
     }
         std::vector<std::string> path_bundle;
         for(const auto& entry : std::filesystem::directory_iterator(path)){
-            path_bundle.push_back(entry.path().string());
+           if(entry.path().string().substr(entry.path().string().length()-4)==".csv")
+           {path_bundle.push_back(entry.path().string());}
         }
         if(path_bundle.empty()) {
-            throw std::runtime_error("Given directory is empty!");
+            throw std::runtime_error("Given directory is empty or has no csv files");
         }
         return path_bundle;
     }

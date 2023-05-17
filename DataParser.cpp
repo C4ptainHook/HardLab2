@@ -10,7 +10,6 @@ bool DataParser::isErrors() const{
 
 void DataParser::LineSecluder(const std::vector<std::string> &_path_bundle) {
     for(const auto& elem : _path_bundle) {
-        if(elem.substr(elem.length()-4)==".csv") {
             std::string curr_file_name = elem.substr(elem.find_last_of('\\')+1, std::string::npos);
             int pos;
             int row_counter=1;
@@ -51,7 +50,6 @@ void DataParser::LineSecluder(const std::vector<std::string> &_path_bundle) {
                 throw EmptyFileException("File "+elem.substr(elem.find_last_of('\\')+1, std::string::npos)+" has more rows than specified");
             }
             read_file.close();
-        }
     }
 
 }
