@@ -20,62 +20,22 @@ namespace Directory {
     }
         std::vector<std::string> path_bundle;
         for(const auto& entry : std::filesystem::directory_iterator(path)){
-            path_bundle.push_back(entry.path().string());
+           if(entry.path().string().substr(entry.path().string().length()-4)==".csv")
+           {path_bundle.push_back(entry.path().string());}
         }
         if(path_bundle.empty()) {
-            throw std::runtime_error("Given directory is empty!");
+            throw std::runtime_error("Given directory is empty or has no csv files");
         }
         return path_bundle;
     }
 
-    std::string DirProcess(const std::vector<std::string> &_path_bundle, const char* path)
+   void DirProcess(const char* path)
     {
         std::string converter = path;
         converter+="\\Parser_Folder";
         if(!std::filesystem::is_directory(converter)) {
         std::filesystem::create_directory(converter);
         }
-        converter+="\\Newfile.csv";
-        std::string curr_line;
-        std::string range_line;
-        for(const auto& elem : _path_bundle)
-        {if(elem.substr(elem.length()-4)==".csv") {
-            int row_counter=1;
-                std::ifstream read_file(elem);
-                std::ofstream write_file;
-                std::getline(read_file, range_line);
-                if(range_line.empty())
-                {
-                    read_file.close();
-                    remove(converter.c_str());
-                    throw EmptyFileException("File "+elem.substr(elem.find_last_of('\\')+1, std::string::npos)+" in given directory is empty");
-                }
-                int range = std::stoi(range_line);
-                write_file.open(converter, std::ios::out | std::ios::app);
-                for (int i = 0; i < range; ++i) {
-                    std::getline(read_file, curr_line);
-                    if(curr_line.empty()) {
-                        read_file.close();
-                        write_file.close();
-                        remove(converter.c_str());
-                        throw EmptyFileException("File "+elem.substr(elem.find_last_of('\\')+1, std::string::npos)+" has less rows than specified");
-                    }
-                    write_file<<elem.substr(elem.find_last_of('\\')+1, std::string::npos)<<"|"<<row_counter<<"|"<< curr_line << std::endl;
-                    curr_line.clear();
-                    row_counter++;
-                }
-                std::getline(read_file, curr_line);
-                if(!curr_line.empty()) {
-                    read_file.close();
-                    write_file.close();
-                    remove(converter.c_str());
-                    throw EmptyFileException("File "+elem.substr(elem.find_last_of('\\')+1, std::string::npos)+" has more rows than specified");
-                }
-                read_file.close();
-                write_file.close();
-            }
-        }
-        return converter;
     }
 }
 
