@@ -82,6 +82,10 @@ void DataParser::OperateLine(std::string& line){
                 is_errors = true;
                 throw FileContentException(curr_file, std::stoi(row));
             }
+            if(!hasSymbols(piece)){
+                is_errors=true;
+                throw FileContentException(curr_file,std::stoi(row), "WRONG NAME OF STUDENT");
+            }
             one.name = piece;
             piece.clear();
             while (std::getline(s, piece, ',')) {
@@ -91,6 +95,11 @@ void DataParser::OperateLine(std::string& line){
                 if(hasSymbols(piece))
                 { is_errors = true;
                     throw FileContentException(curr_file,std::stoi(row), "SCORE CONTAINS SYMBOLS");}
+                if(std::stod(piece)>100)
+                {
+                    is_errors=true;
+                    throw FileContentException(curr_file,std::stoi(row), "MARK BIGGER THAN 100");
+                }
                 one.study_score += std::stod(piece);
                 one.subj_numb++;
             }
