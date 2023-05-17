@@ -7,7 +7,15 @@ int main(int argc, char*argv[]) {
     char* ppath = path;
     std::vector<std::string> path_bundle;
     SetConsoleOutputCP(CP_UTF8);
-    path_bundle=Directory::GetPath(ppath);
+    try{path_bundle=Directory::GetPath(ppath);}
+    catch(const std::filesystem::filesystem_error& ex){
+        std::cerr<<ex.what();
+        return 1;
+    }
+    catch(const std::runtime_error& ex){
+        std::cerr<<ex.what();
+        return 1;
+    }
     Directory::DirProcess(ppath);
     DataParser parser;
     try{parser.LineSecluder( path_bundle);}
