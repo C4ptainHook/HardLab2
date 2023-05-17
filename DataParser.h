@@ -17,6 +17,7 @@ class DataParser {
     bool is_errors=false;
     std::vector<Student> data;
     void OperateLine(std::string&);
+    bool hasSymbols(std::string&);
 public:
     void LineSecluder(const std::vector<std::string> &_path_bundle);
     std::vector<Student> GetData() const;

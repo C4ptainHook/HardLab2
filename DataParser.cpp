@@ -8,6 +8,13 @@ bool DataParser::isErrors() const{
     else return false;
 }
 
+bool DataParser::hasSymbols(std::string& _piece) {
+    for(auto& c : _piece) {
+        if(!std::isdigit(c)) return true;
+    }
+    return false;
+}
+
 void DataParser::LineSecluder(const std::vector<std::string> &_path_bundle) {
     for(const auto& elem : _path_bundle) {
             std::string curr_file_name = elem.substr(elem.find_last_of('\\')+1, std::string::npos);
@@ -59,10 +66,12 @@ void DataParser::OperateLine(std::string& line){
     line.erase(0,line.find_first_of(fnameseparator)+1);
     std::string row = line.substr(0, line.find_first_of(fnameseparator));
     line.erase(0,line.find_first_of(fnameseparator)+1);
+    if(line.empty())
+    {throw EmptyFileException("File "+curr_file+" has EMPTY "+row+" line.");}
     pos = line.find_last_of(separator);
     if(pos==std::string::npos){
         is_errors=true;
-        throw EmptyFileException("File "+curr_file+" has empty "+row+" line");
+        throw FileContentException(curr_file,std::stoi(row), "NO COMMA");
     }
     else {
         if (line.substr(pos + 1, std::string::npos) == budjet_identifier) {
@@ -80,6 +89,12 @@ void DataParser::OperateLine(std::string& line){
             one.name = piece;
             piece.clear();
             while (std::getline(s, piece, ',')) {
+                if(piece.empty())
+                { is_errors = true;
+                    throw FileContentException(curr_file,std::stoi(row), "EMPTY SCORE FIELD");}
+                if(hasSymbols(piece))
+                { is_errors = true;
+                    throw FileContentException(curr_file,std::stoi(row), "SCORE CONTAINS SYMBOLS");}
                 one.study_score += std::stod(piece);
                 one.subj_numb++;
             }
@@ -87,7 +102,7 @@ void DataParser::OperateLine(std::string& line){
         } else if(line.substr(pos + 1, std::string::npos) != contract_identifier)
         {
             is_errors=true;
-            throw FileContentException(curr_file,std::stoi(row),"Unspecified Контрактник or specified wrong");
+            throw FileContentException(curr_file,std::stoi(row),"UNSPECIFIED Контрактник or specified wrong");
         }
     }
 }
