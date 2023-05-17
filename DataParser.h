@@ -14,6 +14,7 @@ class DataParser {
     const std::string contract_identifier = "TRUE";
     const char separator = ',';
     const char* fnameseparator = "|";
+    const int coloumn_limit = 5;
     bool is_errors=false;
     std::vector<Student> data;
     void OperateLine(std::string&);

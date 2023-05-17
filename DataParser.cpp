@@ -32,10 +32,6 @@ void DataParser::LineSecluder(const std::vector<std::string> &_path_bundle) {
             int range = std::stoi(range_line);
             for (int i = 0; i < range; ++i) {
                 std::getline(read_file,line);
-//                if(line.empty()) {
-//                    read_file.close();
-//                    throw EmptyFileException("File "+curr_file_name+" has less rows than specified");
-//                }
                 line.insert(0,fnameseparator);
                 line.insert(0, std::to_string(row_counter));
                 line.insert(0,fnameseparator);
@@ -97,6 +93,10 @@ void DataParser::OperateLine(std::string& line){
                     throw FileContentException(curr_file,std::stoi(row), "SCORE CONTAINS SYMBOLS");}
                 one.study_score += std::stod(piece);
                 one.subj_numb++;
+            }
+            if(one.subj_numb>coloumn_limit) {
+                is_errors = true;
+                throw FileContentException(curr_file,std::stoi(row), "TOO MUCH MARKS +"+ std::to_string(one.subj_numb-coloumn_limit));
             }
             data.push_back(one);
         } else if(line.substr(pos + 1, std::string::npos) != contract_identifier)
