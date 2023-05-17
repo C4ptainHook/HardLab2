@@ -10,18 +10,18 @@
 #include <cctype>
 
 class DataParser {
-    const std::string identifier = "FALSE";
+    const std::string budjet_identifier = "FALSE";
+    const std::string contract_identifier = "TRUE";
     const char separator = ',';
-    const char fnameseparator = '|';
+    const char* fnameseparator = "|";
+    const int coloumn_limit = 5;
     bool is_errors=false;
-    std::string filename;
     std::vector<Student> data;
-    void LineSecluder();
     void OperateLine(std::string&);
+    bool hasSymbols(std::string&);
 public:
+    void LineSecluder(const std::vector<std::string> &_path_bundle);
     std::vector<Student> GetData() const;
-    DataParser(const std::string&);
-    void ParseData();
     bool isErrors() const;
 };
 

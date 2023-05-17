@@ -4,22 +4,23 @@
 #include <stdexcept>
 
 struct FileErr{
-    std::string filename;
-    int col_num=0, row_num;
+    std::string filename, message;
+    int row_num;
 };
 
 class FileContentException: public std::exception{
     FileErr err;
 public:
-    FileContentException(const std::string& _fName, int _c, int _r)
+    FileContentException(const std::string& _fName, int _r, const std::string& _mes=" ")
     {
         err.filename=_fName;
-        err.col_num=_c;;
         err.row_num=_r;
+        err.message = _mes;
     }
     const std::string whatHappened () const{
-        std::string subj = "Error in "+err.filename;
-        subj+= " in coloumn:"+std::to_string(err.col_num)+" "+std::to_string(err.row_num)+"-row"+'\n';
+        std::string subj = "\n---Error in "+err.filename;
+        subj+=" "+std::to_string(err.row_num)+"-row\n";
+        if(err.message!=" "){subj+=err.message+'\n';}
         return subj;
     }
 };

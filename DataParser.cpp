@@ -1,62 +1,110 @@
 #include <fstream>
 #include "DataParser.h"
+#include "EmptyFileexept.h"
 
- DataParser::DataParser(const std::string& _external_path) {
-    filename=_external_path;
-}
+
 bool DataParser::isErrors() const{
     if(is_errors) return true;
     else return false;
 }
 
-void DataParser::LineSecluder() {
-    std::string line;
-    std::ifstream read_file;
-    int pos;
-    read_file.open(filename, std::ios::in);
-    while (std::getline(read_file, line))
-    {
-      pos = line.find_last_of(separator);
-      if(line.substr(pos+1, std::string::npos)==identifier)
-      {
-          line.erase(pos+1, std::string::npos);
-          try{OperateLine(line);}
-          catch(const FileContentException& ex) {
-              std::cerr<<ex.whatHappened();
-          }
-      }
-      line.clear();
+bool DataParser::hasSymbols(std::string& _piece) {
+    for(auto& c : _piece) {
+        if(!std::isdigit(c)) return true;
     }
-    read_file.close();
-    std::remove(filename.c_str());
+    return false;
+}
+
+void DataParser::LineSecluder(const std::vector<std::string> &_path_bundle) {
+    for(const auto& elem : _path_bundle) {
+            std::string curr_file_name = elem.substr(elem.find_last_of('\\')+1, std::string::npos);
+            int row_counter=1;
+            std::string line;
+            std::string range_line;
+            std::ifstream read_file;
+            read_file.open(elem, std::ios::in);
+            std::getline(read_file, range_line);
+            if(range_line.empty())
+            {
+                read_file.close();
+                throw EmptyFileException("File "+curr_file_name+" in given directory is empty");
+            }
+            int range = std::stoi(range_line);
+            for (int i = 0; i < range; ++i) {
+                std::getline(read_file,line);
+                line.insert(0,fnameseparator);
+                line.insert(0, std::to_string(row_counter));
+                line.insert(0,fnameseparator);
+                line.insert(0,curr_file_name);
+                row_counter++;
+                        try { OperateLine(line); }
+                        catch (const FileContentException& ex) {
+                            std::cerr << ex.whatHappened();
+                        }
+                        catch (const EmptyFileException& ex) {
+                            std::cerr << ex.what();
+                        }
+                    line.clear();
+            }
+            std::getline(read_file, line);
+            if(!line.empty()) {
+                read_file.close();
+                throw EmptyFileException("File "+elem.substr(elem.find_last_of('\\')+1, std::string::npos)+" has more rows than specified");
+            }
+            read_file.close();
+    }
+
 }
 
 void DataParser::OperateLine(std::string& line){
+    int pos;
     std::string curr_file = line.substr(0, line.find_first_of(fnameseparator));
     line.erase(0,line.find_first_of(fnameseparator)+1);
     std::string row = line.substr(0, line.find_first_of(fnameseparator));
     line.erase(0,line.find_first_of(fnameseparator)+1);
-    Student one;
-    std::string piece;
-    std::stringstream s(line);
-    std::getline(s, piece, ',');
-    if (piece.empty()) {
-        piece = '-';
-        line.insert(0,piece);
+    if(line.empty())
+    {throw EmptyFileException("File "+curr_file+" has EMPTY "+row+" line.");}
+    pos = line.find_last_of(separator);
+    if(pos==std::string::npos){
         is_errors=true;
-        throw FileContentException(curr_file, 1, std::stoi(row));
+        throw FileContentException(curr_file,std::stoi(row), "NO COMMA");
     }
-    one.name = piece;
-    piece.clear();
-    while (std::getline(s, piece, ',')) {
-        one.study_score += std::stod(piece);
-        one.subj_numb++;
+    else {
+        if (line.substr(pos + 1, std::string::npos) == budjet_identifier) {
+            line.erase(pos + 1, std::string::npos);
+            Student one;
+            std::string piece;
+            std::stringstream s(line);
+            std::getline(s, piece, ',');
+            if (piece.empty()) {
+                piece = '-';
+                line.insert(0, piece);
+                is_errors = true;
+                throw FileContentException(curr_file, std::stoi(row));
+            }
+            one.name = piece;
+            piece.clear();
+            while (std::getline(s, piece, ',')) {
+                if(piece.empty())
+                { is_errors = true;
+                    throw FileContentException(curr_file,std::stoi(row), "EMPTY SCORE FIELD");}
+                if(hasSymbols(piece))
+                { is_errors = true;
+                    throw FileContentException(curr_file,std::stoi(row), "SCORE CONTAINS SYMBOLS");}
+                one.study_score += std::stod(piece);
+                one.subj_numb++;
+            }
+            if(one.subj_numb>coloumn_limit) {
+                is_errors = true;
+                throw FileContentException(curr_file,std::stoi(row), "TOO MUCH MARKS +"+ std::to_string(one.subj_numb-coloumn_limit));
+            }
+            data.push_back(one);
+        } else if(line.substr(pos + 1, std::string::npos) != contract_identifier)
+        {
+            is_errors=true;
+            throw FileContentException(curr_file,std::stoi(row),"UNSPECIFIED Контрактник or specified wrong");
+        }
     }
-    data.push_back(one);
-}
-
-void DataParser::ParseData() {
-    LineSecluder();
 }
 
 std::vector<Student> DataParser::GetData() const{
