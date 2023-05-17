@@ -12,16 +12,13 @@
 class DataParser {
     const std::string identifier = "FALSE";
     const char separator = ',';
-    const char fnameseparator = '|';
+    const char* fnameseparator = "|";
     bool is_errors=false;
-    std::string filename;
     std::vector<Student> data;
-    void LineSecluder();
     void OperateLine(std::string&);
 public:
+    void LineSecluder(const std::vector<std::string> &_path_bundle);
     std::vector<Student> GetData() const;
-    DataParser(const std::string&);
-    void ParseData();
     bool isErrors() const;
 };
 
